@@ -1,6 +1,6 @@
-package t::lib::session;
+package t::lib::session_redis;
 use Jedi::App;
-use Jedi::Plugin::Session;
+use Jedi::Plugin::Session 'Redis';
 with 't::lib::role';
 
 sub jedi_app { shift->init_session }
