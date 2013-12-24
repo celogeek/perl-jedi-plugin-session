@@ -19,9 +19,6 @@ sub _get_random_base64 {
 sub Jedi::Request::session_get { my ($self, @params) = @_; return $self->{'Jedi::Plugin::Session::get'}->($self, @params) }
 sub Jedi::Request::session_set { my ($self, @params) = @_; return $self->{'Jedi::Plugin::Session::set'}->($self, @params) }
 
-#sub Jedi::Request::session_get { return shift->{'Jedi::Plugin::Session::get'}->(@_) }
-#sub Jedi::Request::session_set { return shift->{'Jedi::Plugin::Session::set'}->(@_) }
-
 use Moo::Role;
 
 has '_jedi_session' => (is => 'lazy');
