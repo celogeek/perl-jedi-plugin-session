@@ -13,7 +13,7 @@ use Module::Runtime qw/use_module/;
 use B::Hooks::EndOfScope;
 
 sub import {
-  my ($class, $backend) = @_;
+  my (undef, $backend) = @_;
   $backend //= 'Memory';
 	my $target = caller;
 	on_scope_end {

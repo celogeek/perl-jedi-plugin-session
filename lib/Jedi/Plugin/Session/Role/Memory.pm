@@ -1,8 +1,12 @@
 package Jedi::Plugin::Session::Role::Memory;
 
 # ABSTRACT: Memory Backend
-use Moo::Role;
+
+use strict;
+use warnings;
 # VERSION
+
+use Moo::Role;
 
 sub _build__jedi_session {
     my ($self) = @_;
