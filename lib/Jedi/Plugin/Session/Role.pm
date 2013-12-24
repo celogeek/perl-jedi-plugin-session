@@ -22,12 +22,6 @@ sub Jedi::Request::session_set { my ($self, @params) = @_; return $self->{'Jedi:
 use Moo::Role;
 
 has '_jedi_session' => (is => 'lazy');
-sub _build__jedi_session {
-    my ($self) = @_;
-    my $class = ref $self;
-    my $expires_in = $self->jedi_config->{$class}{session_expiration} // '3 hours';
-    return CHI->new(driver => 'Memory', datastore => {}, expires_in => $expires_in);
-}
 
 before jedi_app => sub {
     my ($app) = @_;

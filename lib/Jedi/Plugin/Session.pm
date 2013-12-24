@@ -13,9 +13,12 @@ use Module::Runtime qw/use_module/;
 use B::Hooks::EndOfScope;
 
 sub import {
+  my (undef, $backend) = @_;
+  $backend //= 'Memory';
 	my $target = caller;
 	on_scope_end {
 		$target->can('with')->('Jedi::Plugin::Session::Role');
+    $target->can('with')->('Jedi::Plugin::Session::Role::' . $backend);
 	};
 	return;
 }
@@ -73,8 +76,34 @@ To change the default expiration for your app, you can use the configuration lik
  MyJediApp: # package name of your app
   session_expiration: 3 hours
 
-Check L<CHI> for the possible value of the expiration.
+Check L<Time::Duration::Parse> for the possible value of the expiration.
 
 If you need to set the full expiration time again, you can just set again the session :
 
  $request->session_set($request->session_get // {});
+
+=head1 BACKENDS
+
+=head2 Memory
+
+The default backend is memory. It use L<CHI> with the Memory driver.
+
+=head2 Redis
+
+Use can use L<Redis> as a backend.
+
+ package MyJediApp;
+ use Jedi::App;
+ use Jedi::Plugin::Session 'Redis';
+
+Everything work the same way.
+
+You can setup L<Redis> access in the configuration like this :
+
+ MyJediApp: # package name of your app
+  session_expiration: 3 hours
+  redis_config:
+    reconnect: 2
+    every: 100
+    server: 127.0.0.1:6900
+
