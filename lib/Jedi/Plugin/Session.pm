@@ -13,9 +13,12 @@ use Module::Runtime qw/use_module/;
 use B::Hooks::EndOfScope;
 
 sub import {
+  my ($class, $backend) = @_;
+  $backend //= 'Memory';
 	my $target = caller;
 	on_scope_end {
 		$target->can('with')->('Jedi::Plugin::Session::Role');
+    $target->can('with')->('Jedi::Plugin::Session::Role::' . $backend);
 	};
 	return;
 }
