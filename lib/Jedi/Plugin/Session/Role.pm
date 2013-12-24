@@ -16,14 +16,20 @@ sub _get_random_base64 {
     return join('', map {@_BASE64[int(rand(64))]} 1..$count);
 }
 
+sub Jedi::Request::session_get { my ($self, @params) = @_; return $self->{'Jedi::Plugin::Session::get'}->($self, @params) }
+sub Jedi::Request::session_set { my ($self, @params) = @_; return $self->{'Jedi::Plugin::Session::set'}->($self, @params) }
+
+#sub Jedi::Request::session_get { return shift->{'Jedi::Plugin::Session::get'}->(@_) }
+#sub Jedi::Request::session_set { return shift->{'Jedi::Plugin::Session::set'}->(@_) }
+
 use Moo::Role;
 
 has '_jedi_session' => (is => 'lazy');
-sub _build_jedi_session {
+sub _build__jedi_session {
     my ($self) = @_;
     my $class = ref $self;
     my $expires_in = $self->jedi_config->{$class}{session_expiration} // '3 hours';
-    return CHI->new(driver => 'Memory', expires_in => $expires_in);
+    return CHI->new(driver => 'Memory', datastore => {}, expires_in => $expires_in);
 }
 
 before jedi_app => sub {
@@ -47,17 +53,12 @@ sub jedi_session_setup {
         $response->push_header('Set-Cookie', $cookie);
     }
 
-    $request->{'Jedi::Plugin::Session::UUID'} = sha1_base64(join('_', grep { defined } ($uuid, $request->remote_address, $request->env->{HTTP_USER_AGENT})));
+    my $full_uuid = sha1_base64(join('_', grep { defined } ($uuid, $request->remote_address, $request->env->{HTTP_USER_AGENT})));
+    $request->{'Jedi::Plugin::Session::UUID'} = $full_uuid;
+    $request->{'Jedi::Plugin::Session::get'} = sub {$self->_jedi_session->get($full_uuid)};
+    $request->{'Jedi::Plugin::Session::set'} = sub { my $req = shift; $self->_jedi_session->set($full_uuid, shift)};
 
     return 1;
-}
-
-sub jedi_session_get {
-    my ($self, $key) = @_;
-
-}
-
-sub jedi_session_set {
 }
 
 1;
