@@ -46,7 +46,7 @@ sub jedi_session_setup {
         $uuid = _get_random_base64(12);
 
         # session save UUID
-        my $cookie = CGI::Cookie->new(-name => 'jedi_session', -value => $uuid, -expires => '+3M');
+        my $cookie = CGI::Cookie->new(-name => 'jedi_session', -value => $uuid, -expires => '+24M');
         $response->push_header('Set-Cookie', $cookie);
     }
 
