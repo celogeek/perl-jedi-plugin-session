@@ -53,7 +53,7 @@ sub jedi_session_setup {
     my $full_uuid = sha1_base64(join('_', grep { defined } ($uuid, $request->remote_address, $request->env->{HTTP_USER_AGENT})));
     $request->{'Jedi::Plugin::Session::UUID'} = $full_uuid;
     $request->{'Jedi::Plugin::Session::get'} = sub {$self->_jedi_session->get($full_uuid)};
-    $request->{'Jedi::Plugin::Session::set'} = sub { my $req = shift; $self->_jedi_session->set($full_uuid, shift)};
+    $request->{'Jedi::Plugin::Session::set'} = sub { my (undef, $value) = @_; $self->_jedi_session->set($full_uuid, $value)};
 
     return 1;
 }
