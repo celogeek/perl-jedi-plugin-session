@@ -28,8 +28,8 @@ sub _build_jedi_session {
 
 before jedi_app => sub {
     my ($app) = @_;
-    $app->get(qr{.*}, $app->can('jedi_session_setup'));
-    $app->post(qr{.*}, $app->can('jedi_session_setup'));
+    $app->get(qr{.*}x, $app->can('jedi_session_setup'));
+    $app->post(qr{.*}x, $app->can('jedi_session_setup'));
     return;
 };
 

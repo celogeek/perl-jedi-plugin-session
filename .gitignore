@@ -1,0 +1,6 @@
+Jedi-Plugin-Session-*
+.build
+*.swp
+*.bak
+*.tdy
+*.LOG
