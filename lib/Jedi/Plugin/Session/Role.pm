@@ -9,7 +9,7 @@ use CHI;
 use Digest::SHA1 qw/sha1_base64/;
 use CGI::Cookie;
 
-my @_BASE64 = (0..9, 'a'..'z', 'A'..'Z', '+', '/');
+my @_BASE64 = (0..9, 'a'..'z', 'A'..'Z', '_', '-');
 
 sub _get_random_base64 {
     my ($count) = @_;
@@ -37,17 +37,17 @@ sub jedi_session_setup {
     my ($self, $request, $response) = @_;
     
     # get UUID from session
-    my $uuid = $request->cookie->{jedi_session};
+    my ($uuid) = @{$request->cookies->{jedi_session} // []};
 
     if (!defined $uuid) {
         $uuid = _get_random_base64(12);
 
         # session save UUID
-        my $cookie = CGI::Cookie->new(-name => 'jedi_session', -value => $uuid);
+        my $cookie = CGI::Cookie->new(-name => 'jedi_session', -value => $uuid, -expires => '+3M');
         $response->push_header('Set-Cookie', $cookie);
     }
 
-    $request->{'Jedi::Plugin::Session'} = sha1_base64($uuid . '_' . $request->remote_address);
+    $request->{'Jedi::Plugin::Session::UUID'} = sha1_base64(join('_', grep { defined } ($uuid, $request->remote_address, $request->env->{HTTP_USER_AGENT})));
 
     return 1;
 }
@@ -59,3 +59,5 @@ sub jedi_session_get {
 
 sub jedi_session_set {
 }
+
+1;
