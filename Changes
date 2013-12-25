@@ -1,3 +1,6 @@
+0.03  2013-12-25 14:31:31 GMT
+    * Feature #392 : Add configurable prefix for jedi session with the redis backend (Celogeek San)
+
 0.02  2013-12-24 23:13:28 GMT
     * Feature #391 : Create Redis backend for Jedi::Plugin::Session (Celogeek San)
 
