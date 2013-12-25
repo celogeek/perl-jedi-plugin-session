@@ -29,7 +29,7 @@ for my $test(@tests) {
   my $jedi = Jedi->new(config => {
     $test => {
       session => {
-        expiration => '3 seconds',
+        expiration => '2 seconds',
       }
     }
   });
