@@ -39,10 +39,10 @@ sub get {
   my $data = $resultset->find($uuid);
   my $session;
   if (defined $data) {
-    if ($data->expire_at >= $now) {
+    if ($data->expire_at > $now) {
       return if ! eval { $session = decode_sereal($data->session); 1};
     } else {
-      $resultset->search({expire_at => { '<' => $now }})->delete_all;
+      $resultset->search({expire_at => { '<=' => $now }})->delete_all;
     }
   }
   return $session;

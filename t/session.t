@@ -140,6 +140,15 @@ for my $test(@tests) {
               )
             ));
             is $res->content, 'undef', 'another user, same session, diff ip';
+
+            diag "Expiration $test : Waiting 3 s ..."; sleep(3);
+            $res = $cb->(HTTP::Request->new(
+              'GET' => '/sub/get?k=a', HTTP::Headers->new(
+                'Cookie' => 'jedi_session=123456789014;'
+              )
+            ));
+            is $res->content, 'undef', 'value has expired';
+
           }
   };
   
