@@ -26,7 +26,13 @@ BEGIN {
 for my $test(@tests) {
   note "Testing $test";
 
-  my $jedi = Jedi->new();
+  my $jedi = Jedi->new(config => {
+    $test => {
+      session => {
+        expiration => '3 seconds',
+      }
+    }
+  });
   $jedi->road('/' => $test);
   $jedi->road('/sub' => $test);
   

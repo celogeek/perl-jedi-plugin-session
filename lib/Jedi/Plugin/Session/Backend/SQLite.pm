@@ -34,10 +34,16 @@ has 'expires_in' => (
 sub get {
   my ($self, $uuid) = @_;
   return if !defined $uuid;
-  my $data = $self->database->resultset('Session')->find($uuid);
+  my $resultset = $self->database->resultset('Session');
+  my $now = time;
+  my $data = $resultset->find($uuid);
   my $session;
   if (defined $data) {
-    return if ! eval { $session = decode_sereal($data->session); 1};
+    if ($data->expire_at >= $now) {
+      return if ! eval { $session = decode_sereal($data->session); 1};
+    } else {
+      $resultset->search({expire_at => { '<' => $now }})->delete_all;
+    }
   }
   return $session;
 }
