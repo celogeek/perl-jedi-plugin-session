@@ -5,6 +5,11 @@ use Plack::Test;
 use Module::Runtime qw/use_module/;
 use Carp;
 use Jedi;
+use Test::File::ShareDir
+  -share => {
+    -dist => { 'Jedi-Plugin-Session' => 'share' }
+  }
+;
 
 my @tests;
 
@@ -15,6 +20,7 @@ BEGIN {
   } else {
     diag "Redis not found, skipping redis tests";
   }
+  push @tests, qw/t::lib::session_sqlite/;
 }
 
 for my $test(@tests) {

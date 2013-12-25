@@ -25,6 +25,7 @@ has '_jedi_session' => (is => 'lazy');
 
 before jedi_app => sub {
     my ($app) = @_;
+    $app->_jedi_session; #init session
     $app->get(qr{.*}x, $app->can('jedi_session_setup'));
     $app->post(qr{.*}x, $app->can('jedi_session_setup'));
     return;
