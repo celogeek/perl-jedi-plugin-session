@@ -3,6 +3,9 @@ use Jedi::App;
 use Jedi::Plugin::Session;
 with 't::lib::role';
 
-sub jedi_app { shift->init_session }
+sub jedi_app { 
+  my ($app) = @_;
+  $app->init_session;
+}
 
 1;
