@@ -57,7 +57,7 @@ sub set {
   return if !defined $uuid;
   my $session = encode_sereal($value);
   $self->_redis->set($self->prefix . $uuid, $session);
-  $self->_redis->expire($uuid, $self->expires_in);
+  $self->_redis->expire($self->prefix . $uuid, $self->expires_in);
   return 1;
 }
 

@@ -74,7 +74,8 @@ The default expiration is '3 hours'. The cookie with a part of the UUID is keep 
 To change the default expiration for your app, you can use the configuration like this :
 
  MyJediApp: # package name of your app
-  session_expiration: 3 hours
+  session:
+    expiration: 3 hours
 
 Check L<Time::Duration::Parse> for the possible value of the expiration.
 
@@ -90,7 +91,7 @@ The default backend is memory. It use L<CHI> with the Memory driver.
 
 =head2 Redis
 
-Use can use L<Redis> as a backend.
+You can use L<Redis> as a backend.
 
  package MyJediApp;
  use Jedi::App;
@@ -101,14 +102,43 @@ Everything work the same way.
 You can setup L<Redis> access in the configuration like this :
 
  MyJediApp: # package name of your app
-  session_expiration: 3 hours
-  redis_config:
-    reconnect: 2
-    every: 100
-    server: 127.0.0.1:6900
-  redis_prefix: my_jedi_app
+  session:
+    expiration: 3 hours
+    redis:
+      config:
+        reconnect: 2
+        every: 100
+        server: 127.0.0.1:6900
+      prefix: my_jedi_app
 
 The redis_prefix will be used to generate the session key. The result will be :
 
   jedi_prefix_YOUR_PREFIX_UUID
 
+=head2 SQLite
+
+You can use L<DBD::SQLite> as a backend.
+
+ package MyJediApp;
+ use Jedi::App;
+ use Jedi::Plugin::Session 'SQLite';
+
+You can configuration SQLite database file in the configuration :
+
+ MyJediApp: # package name of your app
+  session:
+    expiration: 3 hours
+  sqlite:
+    path: /var/lib/jedi_session
+
+The path is the base path for your app. In that case the final file is :
+
+  /var/lib/jedi_session/MyJediApp.db
+
+If your app name is My::Jedi::App, then the final file is :
+
+  /var/lib/jedi_session/My/Jedi/App.db
+
+By default the file is store in the Jedi::Plugin::Session dist_dir. Each app has his own database.
+
+If you start multiple workers, all of them will use the same database and then share the session.
