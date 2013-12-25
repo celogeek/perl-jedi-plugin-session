@@ -106,4 +106,9 @@ You can setup L<Redis> access in the configuration like this :
     reconnect: 2
     every: 100
     server: 127.0.0.1:6900
+  redis_prefix: my_jedi_app
+
+The redis_prefix will be used to generate the session key. The result will be :
+
+  jedi_prefix_YOUR_PREFIX_UUID
 
