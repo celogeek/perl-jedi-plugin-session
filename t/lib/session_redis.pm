@@ -8,7 +8,7 @@ my $app_id = 0;
 sub jedi_app { 
   my ($app) = @_;
   $app->init_session;
-  $app->_jedi_session->prefix(++$app_id);
+  $app->_jedi_session->prefix('test_' . (++$app_id));
 }
 
 1;
