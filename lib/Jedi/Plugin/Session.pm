@@ -74,7 +74,7 @@ The default expiration is '3 hours'. The cookie with a part of the UUID is keep 
 To change the default expiration for your app, you can use the configuration like this :
 
  MyJediApp: # package name of your app
-  session
+  session:
     expiration: 3 hours
 
 Check L<Time::Duration::Parse> for the possible value of the expiration.
@@ -102,9 +102,9 @@ Everything work the same way.
 You can setup L<Redis> access in the configuration like this :
 
  MyJediApp: # package name of your app
-  session
+  session:
     expiration: 3 hours
-    redis
+    redis:
       config:
         reconnect: 2
         every: 100
@@ -126,7 +126,7 @@ You can use L<DBD::SQLite> as a backend.
 You can configuration SQLite database file in the configuration :
 
  MyJediApp: # package name of your app
-  session
+  session:
     expiration: 3 hours
   sqlite:
     path: /var/lib/jedi_session
