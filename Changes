@@ -1,3 +1,6 @@
+0.05  2014-01-05 12:55:45 GMT
+    * Feature #397 : Replace CHI by a faster cache provider for Jedi Plugin Session (Celogeek San)
+
 0.04  2013-12-25 18:05:07 GMT
     * Feature #393 : Add SQLite for Jedi Plugin Session (Celogeek San)
 
