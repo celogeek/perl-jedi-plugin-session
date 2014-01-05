@@ -5,7 +5,6 @@ package Jedi::Plugin::Session::Role;
 use strict;
 use warnings;
 # VERSION
-use CHI;
 use Digest::SHA1 qw/sha1_base64/;
 use CGI::Cookie;
 
